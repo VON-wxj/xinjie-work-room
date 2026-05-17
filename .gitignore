@@ -1,0 +1,10 @@
+node_modules/
+client/dist/
+data/
+uploads/
+logs/
+*.db
+*.db-journal
+*.db-wal
+.env
+.DS_Store
