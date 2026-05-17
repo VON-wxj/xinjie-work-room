@@ -37,6 +37,7 @@ import timelineRoutes from './routes/timeline.js';
 import profileRoutes from './routes/profile.js';
 import projectRoutes from './routes/projects.js';
 import proxyRoutes from './routes/proxy.js';
+import chatRoutes from './routes/chat.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/activities', activityRoutes);
@@ -52,6 +53,7 @@ app.use('/api/timeline', timelineRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/proxy', proxyRoutes);
+app.use('/api/chat', chatRoutes);
 
 // Serve frontend static files in production
 const distPath = config.clientDist;

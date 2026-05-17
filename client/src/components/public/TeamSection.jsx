@@ -108,7 +108,7 @@ export default function TeamSection() {
                       <div className={`text-xs font-mono ${member.is_founder ? 'text-primary-400' : 'text-muted'}`}>
                         {member.role}
                       </div>
-                      {member.is_founder && (
+                      {!!member.is_founder && (
                         <div className="mt-2">
                           <span className="px-2 py-0.5 rounded text-[10px] bg-primary-500/10 text-primary-400 border border-primary-500/20 font-mono">
                             FOUNDER

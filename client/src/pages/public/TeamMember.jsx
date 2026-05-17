@@ -83,7 +83,7 @@ export default function TeamMember() {
             {/* Name */}
             <div className="flex items-center gap-3 mb-1">
               <h1 className="text-3xl font-extrabold text-main">{member.name}</h1>
-              {member.is_founder && (
+              {!!member.is_founder && (
                 <span className="px-2 py-1 rounded text-xs bg-primary-500/10 text-primary-400 border border-primary-500/20 font-mono">
                   FOUNDER
                 </span>

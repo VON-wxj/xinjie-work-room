@@ -116,7 +116,7 @@ export default function HomePage() {
 
         {/* Activity grid */}
         {loading ? (
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <CardSkeleton key={i} />
             ))}
@@ -127,18 +127,15 @@ export default function HomePage() {
             animate={{ opacity: 1 }}
             className="text-center py-20"
           >
-            <p className="text-muted text-lg font-mono">NO_ACTIVITIES_FOUND</p>
-            <p className="text-main text-sm mt-2">暂无活动数据</p>
+            <p className="text-muted text-lg font-mono">暂无活动</p>
           </motion.div>
         ) : (
-          <StaggerContainer>
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-              {filtered.map((activity, i) => (
-                <StaggerItem key={activity.id}>
-                  <ActivityCard activity={activity} index={i} />
-                </StaggerItem>
-              ))}
-            </div>
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((activity, i) => (
+              <StaggerItem key={activity.id}>
+                <ActivityCard activity={activity} index={i} />
+              </StaggerItem>
+            ))}
           </StaggerContainer>
         )}
       </section>

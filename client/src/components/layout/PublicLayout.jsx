@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from '../public/Navbar';
 import Footer from '../public/Footer';
+import ChatWidget from '../public/ChatWidget';
 import { SquaresBg, GradientOrbs } from '../public/AnimatedBg';
 
 export default function PublicLayout() {
@@ -17,6 +18,7 @@ export default function PublicLayout() {
         </main>
         <Footer />
       </div>
+      <ChatWidget />
     </div>
   );
 }

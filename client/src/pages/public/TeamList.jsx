@@ -132,7 +132,7 @@ function MemberCard({ member, featured = false }) {
             <Link to={`/team/${member.id}`} className="text-lg font-bold text-main hover:text-primary-400 transition-colors">
               {member.name}
             </Link>
-            {member.is_founder && (
+            {!!member.is_founder && (
               <span className="px-1.5 py-0.5 rounded text-[10px] bg-primary-500/10 text-primary-400 border border-primary-500/20 font-mono">
                 FOUNDER
               </span>

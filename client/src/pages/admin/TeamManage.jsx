@@ -152,7 +152,7 @@ export default function TeamManage() {
                           {m.avatar_url ? <img src={m.avatar_url} className="w-full h-full rounded-full object-cover" /> : m.name?.charAt(0)}
                         </div>
                         <span className="font-medium text-secondary">{m.name}</span>
-                        {m.is_founder && <span className="px-1.5 py-0.5 rounded text-[10px] bg-primary-500/10 text-primary-400 font-mono">FOUNDER</span>}
+                        {!!m.is_founder && <span className="px-1.5 py-0.5 rounded text-[10px] bg-primary-500/10 text-primary-400 font-mono">FOUNDER</span>}
                       </div>
                     </td>
                     <td className="px-4 py-3 text-muted text-xs">{m.title}</td>
