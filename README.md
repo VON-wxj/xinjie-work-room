@@ -10,14 +10,14 @@
 | 后端 | Node.js + Express 4 |
 | 数据库 | SQLite (better-sqlite3) |
 | 认证 | JWT (jsonwebtoken + bcryptjs) |
+| AI 助手 | 小米 MiMo V2 Omni |
+| 安全 | helmet + CORS 白名单 + rate-limit |
+| 图片处理 | sharp → WebP 压缩 |
 | 部署 | PM2 |
 
 ## 线上地址
 
-| 服务 | 地址 |
-|------|------|
-| 前端 | http://8.160.162.33:3002 |
-| API | http://8.160.162.33:3003 |
+http://8.160.162.33:3003（前后端同端口）
 
 ## 账号体系
 
@@ -145,9 +145,19 @@ xj-work-room/
 
 - 深色/亮色双主题切换
 - 中英文双语支持
-- React Bits 风格动画背景
+- 小V AI 智能助手（小米 MiMo 大模型）
+- React Bits 风格 Canvas 动画背景
 - Framer Motion 页面过渡与滚动动画
-- 瀑布流活动卡片
-- 图片 Lightbox 查看
+- 图片上传自动压缩为 WebP（sharp）
 - Markdown 正文编辑与渲染
-- JWT 认证 + 权限分级
+- JWT 认证 + 三级权限分级
+- 安全加固：helmet + CORS 白名单 + 登录限流
+
+## 开发者
+
+| 平台 | 链接 |
+|------|------|
+| CSDN | https://blog.csdn.net/2302_80329073 |
+| GitHub | https://github.com/VON-wxj |
+| AtomGit | https://atomgit.com/VON- |
+| 邮箱 | 2383951268@qq.com |

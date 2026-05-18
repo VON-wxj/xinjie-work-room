@@ -8,7 +8,7 @@ module.exports = {
     env: {
       NODE_ENV: 'production',
       PORT: 3003,
-      JWT_SECRET: process.env.JWT_SECRET,
+      JWT_SECRET: 'xj-studio-d27aa020592803278aa244db24c53257',
     },
     log_date_format: 'YYYY-MM-DD HH:mm:ss',
     error_file: './logs/err.log',

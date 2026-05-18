@@ -7,9 +7,11 @@ import {
 } from 'lucide-react';
 import { profileAPI } from '../../api';
 import useAuthStore from '../../store/auth';
+import useLanguage from '../../store/language';
 
 export default function ProfilePage() {
   const { user, token } = useAuthStore();
+  const { t } = useLanguage();
   const [member, setMember] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
