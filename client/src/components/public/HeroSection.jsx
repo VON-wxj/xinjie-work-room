@@ -37,7 +37,7 @@ export default function HeroSection() {
         </motion.p>
 
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.7 }} className="flex items-center justify-center gap-10 sm:gap-16 mb-12">
-          {[{ icon: TrendingUp, label: t('profitActivities'), value: '50+' }, { icon: Users, label: t('teamActivities'), value: '100+' }, { icon: Calendar, label: '持续运营', value: '3年+' }].map((stat, i) => (
+          {[{ icon: TrendingUp, label: t('profitActivities'), value: '50+' }, { icon: Users, label: t('teamActivities'), value: '100+' }, { icon: Calendar, label: t('continuousOperation'), value: '3年+' }].map((stat, i) => (
             <motion.div key={stat.label} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4, delay: 0.8 + i * 0.15, ease: [0.175, 0.885, 0.32, 1.275] }} className="text-center">
               <stat.icon size={22} className="mx-auto text-primary-400 mb-2" />
               <div className="text-3xl font-bold text-main font-mono">{stat.value}</div>

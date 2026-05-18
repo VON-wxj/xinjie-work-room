@@ -39,7 +39,7 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-5">
             <Link to="/" className="text-sm font-medium text-secondary hover:text-primary-400 transition-colors">{t('home')}</Link>
-            <Link to="/projects" className="text-sm font-medium text-secondary hover:text-primary-400 transition-colors">项目</Link>
+            <Link to="/projects" className="text-sm font-medium text-secondary hover:text-primary-400 transition-colors">{t('projects_nav')}</Link>
             <Link to="/team" className="text-sm font-medium text-secondary hover:text-primary-400 transition-colors">{t('team')}</Link>
 
             {user ? (
@@ -96,7 +96,7 @@ export default function Navbar() {
         <div className="md:hidden glass-panel border-t border-white/5">
           <div className="px-4 py-3 space-y-2">
             <Link to="/" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('home')}</Link>
-            <Link to="/projects" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>项目</Link>
+            <Link to="/projects" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('projects_nav')}</Link>
             <Link to="/team" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('team')}</Link>
             {user ? (
               <>

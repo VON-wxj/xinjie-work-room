@@ -1,6 +1,7 @@
 const zh = {
   // Nav
   home: '首页',
+  projects_nav: '项目',
   team: '团队',
   login: '登录',
   register: '注册',
@@ -8,6 +9,7 @@ const zh = {
   profile: '个人资料',
   admin: '管理后台',
   backToFrontend: '返回前台',
+  backToAdmin: '返回后台',
   welcome: '欢迎来到芯捷工作室',
 
   // Hero
@@ -16,10 +18,11 @@ const zh = {
   heroDesc: '记录每一次精彩瞬间，汇聚团队成长力量。',
   heroDesc2: '以科技驱动团队协作，让活动管理更智能、更高效。',
   exploreBtn: '探索活动',
+  continuousOperation: '持续运营',
 
   // Team
   teamSection: '团队介绍',
-  teamDesc: '团队于 2025年11月12日 成立，由 8 名充满激情的成员组成。',
+  teamDesc: '团队于 2025年11月12日 成立，由 {count} 名充满激情的成员组成。',
   teamMembers: '团队成员',
   teamFounded: '成立时间',
   teamPartners: '合作大厂',
@@ -29,6 +32,9 @@ const zh = {
   founderLabel: 'FOUNDER',
   coreMember: '核心成员',
   coreTeam: '核心团队',
+  teamPageTitle: '团队成员',
+  teamPageDesc: '八位志同道合的伙伴，因为技术而相聚，因为热爱而前行',
+  memberNotFound: '成员不存在',
 
   // Timeline
   timeline: '团队时间线',
@@ -38,6 +44,12 @@ const zh = {
   event: '活动',
   teamBuilding: '团建',
   achievement: '成就',
+
+  // Projects
+  projectShowcase: '项目展示',
+  projectDesc: '团队完成的项目成果展示',
+  noProjects: '暂无项目展示',
+  visitProject: '访问项目',
 
   // Activity
   activities: '精彩活动',
@@ -109,6 +121,13 @@ const zh = {
   activityOverview: '活动概览',
   activityOverviewDesc: '芯捷工作室核心成员，积极参与团队各类技术活动。从创立之初便与团队一同成长，参与大厂线上活动（字节跳动、华为、阿里巴巴、腾讯），在鸿蒙生态建设、跨平台开发、技术写作等领域不断探索。',
   joinedAt: '加入于',
+  // Footer
+  footerTagline: 'Made with passion by',
+  footerBeta: '测试版 v1.0',
+
+  // Error / Generic
+  errorLoadFailed: '加载失败，请稍后重试',
+  retry: '重试',
 
   // Admin
   dashboard: '仪表盘',
@@ -206,6 +225,7 @@ const zh = {
 
 const en = {
   home: 'Home',
+  projects_nav: 'Projects',
   team: 'Team',
   login: 'Login',
   register: 'Register',
@@ -213,6 +233,7 @@ const en = {
   profile: 'Profile',
   admin: 'Admin',
   backToFrontend: '← FRONTEND',
+  backToAdmin: '← DASHBOARD',
   welcome: 'Welcome to Xinjie Studio',
 
   heroTitle: 'Team Activities',
@@ -220,18 +241,22 @@ const en = {
   heroDesc: 'Capture every wonderful moment, gather the power of team growth.',
   heroDesc2: 'Tech-driven collaboration, smarter and more efficient activity management.',
   exploreBtn: 'Explore',
+  continuousOperation: 'Active',
 
   teamSection: 'Team',
-  teamDesc: 'Founded on Nov 12, 2025, with 8 passionate members.',
+  teamDesc: 'Founded on Nov 12, 2025, with {count} passionate members.',
   teamMembers: 'Members',
   teamFounded: 'Founded',
   teamPartners: 'Partners',
   teamArticles: 'Articles',
   viewAllMembers: 'VIEW_ALL_MEMBERS',
-  founder: '团队创建者',
+  founder: 'Founder',
   founderLabel: 'FOUNDER',
   coreMember: 'Core Member',
   coreTeam: 'CORE_TEAM',
+  teamPageTitle: 'Team',
+  teamPageDesc: 'Eight like-minded partners, united by technology, driven by passion',
+  memberNotFound: 'MEMBER_NOT_FOUND',
 
   timeline: 'Timeline',
   timelineDesc: 'Every step since 2025.11',
@@ -240,6 +265,12 @@ const en = {
   event: 'EVENT',
   teamBuilding: 'TEAM',
   achievement: 'WIN',
+
+  // Projects
+  projectShowcase: 'PROJECTS',
+  projectDesc: 'Project achievements by the team',
+  noProjects: 'No projects yet',
+  visitProject: 'Visit',
 
   activities: 'Activities',
   activitiesDesc: 'Discover the latest updates and achievements',
@@ -379,6 +410,10 @@ const en = {
   changeImage: 'Change Image',
   uploadFile: 'Upload File',
 
+  // Error / Generic
+  errorLoadFailed: 'Failed to load, please retry',
+  retry: 'Retry',
+
   search: 'Search',
   filter: 'Filter',
   loading: 'Loading...',
@@ -397,6 +432,9 @@ const en = {
   savedOk: 'SAVED_OK',
   count: '',
   uncategorized: 'Uncategorized',
+
+  footerTagline: 'Made with passion by',
+  footerBeta: 'Beta v1.0',
 };
 
 export { zh, en };

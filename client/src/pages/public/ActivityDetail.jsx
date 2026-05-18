@@ -5,33 +5,46 @@ import ReactMarkdown from 'react-markdown';
 import {
   Calendar, MapPin, TrendingUp, Users, Link as LinkIcon,
   Download, Image as ImageIcon, ArrowLeft, Heart,
-  MessageSquare, Send, Loader2,
+  MessageSquare, Send, Loader2, RefreshCw,
 } from 'lucide-react';
 import { activityAPI, commentAPI, favoriteAPI } from '../../api';
 import { formatDate, getActivityStatus } from '../../lib/utils';
 import useAuthStore from '../../store/auth';
+import useLanguage from '../../store/language';
 import ScrollReveal from '../../components/public/ScrollReveal';
 
 export default function ActivityDetail() {
   const { id } = useParams();
   const { user } = useAuthStore();
+  const { t } = useLanguage();
   const [activity, setActivity] = useState(null);
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState('');
   const [favorited, setFavorited] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
+  const onImgError = (e) => { e.target.style.display = 'none'; };
+
+  const fetchData = () => {
+    const abort = new AbortController();
     setLoading(true);
-    activityAPI.get(id).then((data) => {
-      setActivity(data);
-      setLoading(false);
-    });
+    setError(null);
+    activityAPI.get(id, { signal: abort.signal })
+      .then((data) => setActivity(data))
+      .catch((err) => { if (!abort.signal.aborted) setError(err); })
+      .finally(() => { if (!abort.signal.aborted) setLoading(false); });
     commentAPI.list(id).then((data) => setComments(data.comments));
     if (user) {
       favoriteAPI.check(id).then((data) => setFavorited(data.favorited));
     }
+    return () => abort.abort();
+  };
+
+  useEffect(() => {
+    const cleanup = fetchData();
+    return cleanup;
   }, [id, user]);
 
   const handleFavorite = async () => {
@@ -60,12 +73,28 @@ export default function ActivityDetail() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center pt-16 bg-surface">
+        <div className="text-center">
+          <p className="text-muted text-sm font-mono mb-3">{t('errorLoadFailed')}</p>
+          <button
+            onClick={() => { const c = fetchData(); }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-primary-400/20 text-sm text-primary-400 hover:bg-primary-500/10 transition-all font-mono"
+          >
+            <RefreshCw size={14} /> {t('retry')}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (!activity) {
     return (
       <div className="min-h-screen flex items-center justify-center pt-16 bg-surface">
         <div className="text-center">
-          <p className="text-lg text-muted mb-4 font-mono">404_NOT_FOUND</p>
-          <Link to="/" className="text-primary-400 hover:text-primary-300 underline">返回首页</Link>
+          <p className="text-lg text-muted mb-4 font-mono">{t('notFound')}</p>
+          <Link to="/" className="text-primary-400 hover:text-primary-300 underline">{t('goHome')}</Link>
         </div>
       </div>
     );
@@ -87,7 +116,7 @@ export default function ActivityDetail() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 mb-10">
         <div className="relative h-64 sm:h-96 rounded-xl overflow-hidden bg-surface-200 border border-white/5">
           {activity.cover_image ? (
-            <img src={activity.cover_image} alt={activity.title} className="w-full h-full object-cover" />
+            <img src={activity.cover_image} alt={activity.title} className="w-full h-full object-cover" loading="lazy" decoding="async" onError={onImgError} />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
               {isProfit ? <TrendingUp size={64} className="text-primary-400/20" /> : <Users size={64} className="text-accent-400/20" />}
@@ -222,7 +251,7 @@ export default function ActivityDetail() {
                       src={`/${photo.file_path}`}
                       alt=""
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
+                      loading="lazy" decoding="async" onError={onImgError}
                     />
                   </motion.div>
                 ))}

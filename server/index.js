@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import morgan from 'morgan';
+import rateLimit from 'express-rate-limit';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
@@ -15,9 +17,37 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  contentSecurityPolicy: false,
+}));
+
+// CORS 白名单：仅允许开发端口和生产域名
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3003',
+  'http://8.160.162.33:3003',
+  'http://8.160.162.33',
+];
+app.use(cors({
+  origin: (origin, callback) => {
+    // 允许无 origin 的请求（如 curl、Postman、服务端调用）
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error('不允许的跨域来源'));
+  },
+}));
 app.use(express.json());
 app.use(morgan('short'));
+
+// Rate limiting for auth endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: '请求过于频繁，请稍后再试' },
+});
 
 // Serve uploaded files
 app.use('/uploads', express.static(config.uploadDir));
@@ -39,7 +69,7 @@ import projectRoutes from './routes/projects.js';
 import proxyRoutes from './routes/proxy.js';
 import chatRoutes from './routes/chat.js';
 
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/comments', commentRoutes);
@@ -55,16 +85,14 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/proxy', proxyRoutes);
 app.use('/api/chat', chatRoutes);
 
-// Serve frontend static files in production
+// 生产环境：同一端口托管前端静态文件（前后端同源部署）
 const distPath = config.clientDist;
 if (fs.existsSync(distPath)) {
-  const frontApp = express();
-  frontApp.use(express.static(distPath));
-  frontApp.get('*', (_req, res) => {
+  app.use(express.static(distPath));
+  app.get('*', (_req, res, next) => {
+    // 仅对非 API 请求回退到 index.html（SPA 路由）
+    if (_req.path.startsWith('/api/')) return next();
     res.sendFile(path.join(distPath, 'index.html'));
-  });
-  frontApp.listen(3002, () => {
-    console.log(`前端已启动: http://localhost:3002`);
   });
 }
 

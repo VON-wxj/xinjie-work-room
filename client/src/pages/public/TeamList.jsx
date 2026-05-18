@@ -1,25 +1,39 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Users, Github, ArrowRight, Loader2 } from 'lucide-react';
+import { Users, Github, ArrowRight, Loader2, RefreshCw } from 'lucide-react';
 import { teamAPI } from '../../api';
+import useLanguage from '../../store/language';
 import ScrollReveal, { StaggerContainer, StaggerItem } from '../../components/public/ScrollReveal';
 
 export default function TeamList() {
+  const { t } = useLanguage();
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    teamAPI.list().then((data) => {
-      setMembers(data.members);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    const abort = new AbortController();
+    setLoading(true);
+    setError(null);
+    teamAPI.list({ signal: abort.signal })
+      .then((data) => setMembers(data.members))
+      .catch((err) => { if (!abort.signal.aborted) setError(err); })
+      .finally(() => { if (!abort.signal.aborted) setLoading(false); });
+    return () => abort.abort();
   }, []);
+
+  const handleRetry = () => {
+    setLoading(true);
+    setError(null);
+    teamAPI.list()
+      .then((data) => setMembers(data.members))
+      .catch((err) => setError(err))
+      .finally(() => setLoading(false));
+  };
 
   const founders = members.filter(m => m.is_founder);
   const others = members.filter(m => !m.is_founder);
-
-  // Stats
   const totalMembers = members.length;
 
   return (
@@ -41,7 +55,7 @@ export default function TeamList() {
             transition={{ delay: 0.1 }}
             className="text-4xl sm:text-5xl font-extrabold text-main mb-4"
           >
-            <span className="gradient-text font-mono">&gt;</span> 团队成员
+            <span className="gradient-text font-mono">&gt;</span> {t('teamPageTitle')}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -49,13 +63,33 @@ export default function TeamList() {
             transition={{ delay: 0.2 }}
             className="text-muted max-w-2xl mx-auto"
           >
-            八位志同道合的伙伴，因为技术而相聚，因为热爱而前行
+            {t('teamPageDesc')}
           </motion.p>
         </div>
       </section>
 
+      {/* Error state */}
+      {error && (
+        <div className="text-center py-10">
+          <p className="text-muted text-sm font-mono mb-3">{t('errorLoadFailed')}</p>
+          <button
+            onClick={handleRetry}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-primary-400/20 text-sm text-primary-400 hover:bg-primary-500/10 transition-all font-mono"
+          >
+            <RefreshCw size={14} /> {t('retry')}
+          </button>
+        </div>
+      )}
+
+      {/* Loading */}
+      {loading && (
+        <div className="flex items-center justify-center py-20">
+          <Loader2 size={32} className="animate-spin text-primary-400/50" />
+        </div>
+      )}
+
       {/* Founder section */}
-      {founders.length > 0 && (
+      {!error && !loading && founders.length > 0 && (
         <section className="pb-8">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 mb-6">
@@ -72,18 +106,14 @@ export default function TeamList() {
       )}
 
       {/* All members */}
-      <section className="py-8 pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-1 h-5 bg-gradient-to-b from-emerald-400 to-green-500 rounded-full" />
-            <h2 className="text-lg font-bold text-main font-mono">CORE_TEAM</h2>
-          </div>
-
-          {loading ? (
-            <div className="flex items-center justify-center py-20">
-              <Loader2 size={32} className="animate-spin text-primary-400/50" />
+      {!error && !loading && (
+        <section className="py-8 pb-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-1 h-5 bg-gradient-to-b from-emerald-400 to-green-500 rounded-full" />
+              <h2 className="text-lg font-bold text-main font-mono">CORE_TEAM</h2>
             </div>
-          ) : (
+
             <StaggerContainer>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {others.map((member) => (
@@ -93,15 +123,17 @@ export default function TeamList() {
                 ))}
               </div>
             </StaggerContainer>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
 
 function MemberCard({ member, featured = false }) {
-  const skills = member.skills ? member.skills.split(',') : [];
+  // 安全解析 skills：确保是字符串才 split
+  const skills = typeof member.skills === 'string' ? member.skills.split(',') : [];
+  const onImgError = (e) => { e.target.style.display = 'none'; };
 
   return (
     <motion.div
@@ -119,10 +151,9 @@ function MemberCard({ member, featured = false }) {
               : 'bg-gradient-to-br from-surface-300 to-surface-400'
           } group-hover:scale-105 transition-transform`}>
             {member.avatar_url ? (
-              <img src={member.avatar_url} alt={member.name} className="w-full h-full rounded-full object-cover" />
-            ) : (
-              member.name?.charAt(0)
-            )}
+              <img src={member.avatar_url} alt={member.name} className="w-full h-full rounded-full object-cover" loading="lazy" decoding="async" onError={onImgError} />
+            ) : null}
+            {(!member.avatar_url) && (member.name?.charAt(0))}
           </div>
         </Link>
 

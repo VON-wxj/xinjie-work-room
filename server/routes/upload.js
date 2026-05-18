@@ -1,14 +1,23 @@
 import { Router } from 'express';
 import fs from 'fs';
 import path from 'path';
+import config from '../config.js';
 import { adminAuth } from '../middleware/auth.js';
 import { uploadImage, uploadFile, compressImage } from '../middleware/upload.js';
 
 function toUrl(absolutePath) {
-  // Convert /opt/xj-work-room/uploads/... → uploads/...
-  const parts = absolutePath.replace(/\\/g, '/').split('/');
-  const idx = parts.indexOf('uploads');
-  return '/' + parts.slice(idx).join('/');
+  // Convert absolute path to relative URL
+  const relative = path.relative(config.uploadDir, absolutePath);
+  return '/uploads/' + relative.replace(/\\/g, '/');
+}
+
+function safeResolve(filepath) {
+  const resolved = path.resolve(config.uploadDir, filepath);
+  // Ensure the resolved path stays within uploadDir
+  if (!resolved.startsWith(config.uploadDir + path.sep) && resolved !== config.uploadDir) {
+    return null;
+  }
+  return resolved;
 }
 
 const router = Router();
@@ -40,20 +49,22 @@ router.post('/file', adminAuth, uploadFile.single('file'), (req, res) => {
 });
 
 router.delete('/:filepath', adminAuth, (req, res) => {
-  const filePath = req.params.filepath;
-  if (filePath.includes('..') || !filePath.startsWith('uploads/')) {
+  const resolved = safeResolve(req.params.filepath);
+  if (!resolved) {
     return res.status(400).json({ error: '无效的文件路径' });
   }
 
-  try {
-    fs.unlinkSync(filePath);
-    // Also try deleting the .webp variant
-    const webpPath = filePath.replace(/\.[^.]+$/, '.webp');
-    if (webpPath !== filePath) {
-      try { fs.unlinkSync(webpPath); } catch {}
-    }
-  } catch {
+  if (!fs.existsSync(resolved)) {
     return res.status(404).json({ error: '文件不存在' });
+  }
+
+  fs.unlinkSync(resolved);
+
+  // Also try deleting the .webp variant
+  const ext = path.extname(resolved);
+  if (ext) {
+    const webpPath = resolved.replace(ext, '.webp');
+    try { if (fs.existsSync(webpPath)) fs.unlinkSync(webpPath); } catch {}
   }
 
   return res.json({ success: true });

@@ -81,7 +81,7 @@ export default function ProfilePage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
         <Link to="/admin" className="inline-flex items-center gap-1 text-sm text-muted hover:text-primary-400 transition-colors mb-6">
           <ArrowLeft size={16} />
-          返回后台
+          {t('backToAdmin')}
         </Link>
 
         {/* Profile header */}
@@ -98,7 +98,7 @@ export default function ProfilePage() {
                 : 'bg-gradient-to-br from-surface-300 to-surface-400'
             }`}>
               {form.avatar_url ? (
-                <img src={form.avatar_url} alt={member.name} className="w-full h-full rounded-full object-cover" />
+                <img src={form.avatar_url} alt={member.name} className="w-full h-full rounded-full object-cover" loading="lazy" decoding="async" onError={(e) => { e.target.style.display = 'none'; }} />
               ) : (
                 member.name?.charAt(0)
               )}

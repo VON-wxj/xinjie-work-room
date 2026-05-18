@@ -25,7 +25,7 @@ export const uploadImage = multer({
   storage,
   limits: { fileSize: 20 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
-    const allowed = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+    const allowed = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
     const ext = path.extname(file.originalname).toLowerCase();
     if (allowed.includes(ext)) cb(null, true);
     else cb(new Error('只允许上传图片文件'));
@@ -40,11 +40,6 @@ export const uploadFile = multer({
 // Compress uploaded image and convert to WebP
 export async function compressImage(filePath) {
   try {
-    const ext = path.extname(filePath).toLowerCase();
-
-    // Skip SVG - can't compress vector
-    if (ext === '.svg') return filePath;
-
     const tmpPath = filePath + '.tmp';
 
     await sharp(filePath)
@@ -53,7 +48,8 @@ export async function compressImage(filePath) {
       .toFile(tmpPath);
 
     // Replace original with compressed .webp version
-    const newPath = ext ? filePath.replace(ext, '.webp') : filePath + '.webp';
+    const ext = path.extname(filePath).toLowerCase();
+    const newPath = filePath.replace(ext, '.webp');
     fs.unlinkSync(filePath);
     fs.renameSync(tmpPath, newPath);
 

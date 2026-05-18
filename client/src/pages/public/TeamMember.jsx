@@ -2,23 +2,37 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  ArrowLeft, MapPin, Calendar, Github, Award,
-  BookOpen, Zap, Loader2, Mail, ExternalLink,
+  ArrowLeft, MapPin, Calendar, Github,
+  BookOpen, Zap, Loader2, ExternalLink, RefreshCw,
 } from 'lucide-react';
 import { teamAPI } from '../../api';
+import useLanguage from '../../store/language';
 import ScrollReveal from '../../components/public/ScrollReveal';
 
 export default function TeamMember() {
   const { id } = useParams();
+  const { t } = useLanguage();
   const [member, setMember] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchMember = () => {
+    const abort = new AbortController();
+    setLoading(true);
+    setError(null);
+    teamAPI.get(id, { signal: abort.signal })
+      .then((data) => setMember(data.member))
+      .catch((err) => { if (!abort.signal.aborted) setError(err); })
+      .finally(() => { if (!abort.signal.aborted) setLoading(false); });
+    return () => abort.abort();
+  };
 
   useEffect(() => {
-    teamAPI.get(id).then((data) => {
-      setMember(data.member);
-      setLoading(false);
-    });
+    const cleanup = fetchMember();
+    return cleanup;
   }, [id]);
+
+  const onImgError = (e) => { e.target.style.display = 'none'; };
 
   if (loading) {
     return (
@@ -28,18 +42,35 @@ export default function TeamMember() {
     );
   }
 
-  if (!member) {
+  if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center pt-16 bg-surface">
         <div className="text-center">
-          <p className="text-muted text-lg font-mono">MEMBER_NOT_FOUND</p>
-          <Link to="/team" className="text-primary-400 hover:underline mt-2 inline-block">返回团队列表</Link>
+          <p className="text-muted text-sm font-mono mb-3">{t('errorLoadFailed')}</p>
+          <button
+            onClick={() => { const c = fetchMember(); }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-primary-400/20 text-sm text-primary-400 hover:bg-primary-500/10 transition-all font-mono"
+          >
+            <RefreshCw size={14} /> {t('retry')}
+          </button>
         </div>
       </div>
     );
   }
 
-  const skills = member.skills || [];
+  if (!member) {
+    return (
+      <div className="min-h-screen flex items-center justify-center pt-16 bg-surface">
+        <div className="text-center">
+          <p className="text-muted text-lg font-mono">{t('memberNotFound')}</p>
+          <Link to="/team" className="text-primary-400 hover:underline mt-2 inline-block">{t('backToTeam')}</Link>
+        </div>
+      </div>
+    );
+  }
+
+  // 安全解析 skills
+  const skills = typeof member.skills === 'string' ? member.skills.split(',') : (Array.isArray(member.skills) ? member.skills : []);
 
   return (
     <div className="min-h-screen pt-16 bg-surface grid-bg">
@@ -47,11 +78,11 @@ export default function TeamMember() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-8 pb-4">
         <Link to="/team" className="inline-flex items-center gap-1 text-sm text-muted hover:text-primary-400 transition-colors">
           <ArrowLeft size={16} />
-          返回团队列表
+          {t('backToTeam')}
         </Link>
       </div>
 
-      {/* Profile Header - GitHub style */}
+      {/* Profile Header */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col md:flex-row gap-8 mb-10">
           {/* Left: Avatar */}
@@ -66,10 +97,9 @@ export default function TeamMember() {
                 : 'bg-gradient-to-br from-surface-300 to-surface-400'
             }`}>
               {member.avatar_url ? (
-                <img src={member.avatar_url} alt={member.name} className="w-full h-full rounded-full object-cover" />
-              ) : (
-                member.name?.charAt(0)
-              )}
+                <img src={member.avatar_url} alt={member.name} className="w-full h-full rounded-full object-cover" loading="lazy" decoding="async" onError={onImgError} />
+              ) : null}
+              {(!member.avatar_url) && (member.name?.charAt(0))}
             </div>
           </motion.div>
 
@@ -80,7 +110,6 @@ export default function TeamMember() {
             transition={{ delay: 0.1 }}
             className="flex-1 pt-2"
           >
-            {/* Name */}
             <div className="flex items-center gap-3 mb-1">
               <h1 className="text-3xl font-extrabold text-main">{member.name}</h1>
               {!!member.is_founder && (
@@ -91,7 +120,6 @@ export default function TeamMember() {
             </div>
             <p className="text-lg text-primary-400 font-mono mb-3">{member.title || member.role}</p>
 
-            {/* Bio */}
             {member.bio && (
               <p className="text-secondary leading-relaxed mb-4 max-w-xl">{member.bio}</p>
             )}
@@ -101,12 +129,12 @@ export default function TeamMember() {
               {member.join_date && (
                 <span className="flex items-center gap-1.5">
                   <Calendar size={14} className="text-muted" />
-                  加入于 {member.join_date}
+                  {t('joinedAt')} {member.join_date}
                 </span>
               )}
               <span className="flex items-center gap-1.5">
                 <MapPin size={14} className="text-muted" />
-                中国
+                {t('china')}
               </span>
             </div>
 
@@ -130,11 +158,11 @@ export default function TeamMember() {
             <div className="flex gap-6">
               <div className="text-center">
                 <div className="text-2xl font-bold text-main font-mono">--</div>
-                <div className="text-xs text-muted mt-1">活跃天</div>
+                <div className="text-xs text-muted mt-1">{t('activeDays')}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-main font-mono">{skills.length}</div>
-                <div className="text-xs text-muted mt-1">技能</div>
+                <div className="text-xs text-muted mt-1">{t('skillCount')}</div>
               </div>
             </div>
           </motion.div>
@@ -152,7 +180,7 @@ export default function TeamMember() {
             <div className="flex flex-wrap gap-2">
               {skills.map((skill) => (
                 <span key={skill} className="px-3 py-1.5 rounded-lg bg-primary-500/10 border border-primary-500/20 text-sm text-primary-400 font-mono">
-                  {skill.trim()}
+                  {typeof skill === 'string' ? skill.trim() : skill}
                 </span>
               ))}
             </div>
@@ -169,9 +197,7 @@ export default function TeamMember() {
               <h2 className="text-lg font-bold text-main font-mono">ACTIVITY_OVERVIEW</h2>
             </div>
             <p className="text-sm text-muted leading-relaxed">
-              芯捷工作室核心成员，积极参与团队各类技术活动。从创立之初便与团队一同成长，
-              参与大厂线上活动（字节跳动、华为、阿里巴巴、腾讯），
-              在鸿蒙生态建设、跨平台开发、技术写作等领域不断探索。
+              {t('activityOverviewDesc')}
             </p>
           </div>
         </div>

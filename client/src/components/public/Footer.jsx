@@ -1,4 +1,5 @@
 import { Zap, Github, Globe, MessageCircle, Phone, Mail } from 'lucide-react';
+import useLanguage from '../../store/language';
 
 const links = [
   { icon: Globe, label: 'CSDN', url: 'https://blog.csdn.net/2302_80329073' },
@@ -13,6 +14,8 @@ const contact = [
 ];
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="border-t border-[var(--c-border)] py-10">
       <div className="max-w-7xl mx-auto px-4">
@@ -20,7 +23,7 @@ export default function Footer() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-3">
             <Zap size={16} className="text-primary-400" />
-            <span className="text-sm text-muted">Made with passion by</span>
+            <span className="text-sm text-muted">{t('footerTagline')}</span>
           </div>
           <p className="text-lg font-bold gradient-text font-mono">芯捷工作室</p>
           <p className="text-xs text-muted mt-2 font-mono">
@@ -56,7 +59,7 @@ export default function Footer() {
 
         {/* Version */}
         <p className="text-[10px] text-muted text-center opacity-40 font-mono">
-          测试版 v1.0
+          {t('footerBeta')}
         </p>
       </div>
     </footer>

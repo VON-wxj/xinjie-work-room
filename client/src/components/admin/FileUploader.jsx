@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react';
 import { Upload, X, Loader2, Image as ImageIcon, File } from 'lucide-react';
 import { uploadAPI } from '../../api';
+import useLanguage from '../../store/language';
 
 export function ImageUploader({ value, onChange, multiple = false }) {
+  const { t } = useLanguage();
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef(null);
 
@@ -66,7 +68,7 @@ export function ImageUploader({ value, onChange, multiple = false }) {
         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs font-medium text-secondary hover:bg-white/10 hover:text-secondary transition-colors"
       >
         {uploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
-        {multiple ? '上传图片' : value ? '更换图片' : '上传图片'}
+        {multiple ? t('uploadImage') : value ? t('changeImage') : t('uploadImage')}
       </button>
       <input ref={inputRef} type="file" accept="image/*" multiple={multiple} onChange={handleUpload} className="hidden" />
     </div>
@@ -74,6 +76,7 @@ export function ImageUploader({ value, onChange, multiple = false }) {
 }
 
 export function FileUploader({ value, onChange }) {
+  const { t } = useLanguage();
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef(null);
 
@@ -120,7 +123,7 @@ export function FileUploader({ value, onChange }) {
         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs font-medium text-secondary hover:bg-white/10 hover:text-secondary transition-colors"
       >
         {uploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
-        上传附件
+        {t('uploadFile')}
       </button>
       <input ref={inputRef} type="file" multiple onChange={handleUpload} className="hidden" />
     </div>

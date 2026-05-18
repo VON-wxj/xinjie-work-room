@@ -7,24 +7,50 @@ import Timeline from '../../components/public/Timeline';
 import ActivityCard from '../../components/public/ActivityCard';
 import ScrollReveal, { StaggerContainer, StaggerItem } from '../../components/public/ScrollReveal';
 import { CardSkeleton } from '../../components/public/AnimatedCounter';
-import { Filter, Zap } from 'lucide-react';
+import { Filter, Zap, RefreshCw } from 'lucide-react';
+import useLanguage from '../../store/language';
 
 export default function HomePage() {
+  const { t } = useLanguage();
   const [activities, setActivities] = useState([]);
   const [categories, setCategories] = useState({ profit: [], team_building: [] });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [typeFilter, setTypeFilter] = useState('');
   const [catFilter, setCatFilter] = useState('');
 
   useEffect(() => {
+    const abort = new AbortController();
+    setLoading(true);
+    setError(null);
+    Promise.all([
+      activityAPI.list({ limit: 50, signal: abort.signal }),
+      categoryAPI.list({ signal: abort.signal }),
+    ]).then(([actData, catData]) => {
+      if (!abort.signal.aborted) {
+        setActivities(actData.activities);
+        setCategories(catData.categories);
+      }
+    }).catch((err) => {
+      if (!abort.signal.aborted) setError(err);
+    }).finally(() => {
+      if (!abort.signal.aborted) setLoading(false);
+    });
+    return () => abort.abort();
+  }, []);
+
+  const handleRetry = () => {
+    setLoading(true);
+    setError(null);
     Promise.all([
       activityAPI.list({ limit: 50 }),
       categoryAPI.list(),
     ]).then(([actData, catData]) => {
       setActivities(actData.activities);
       setCategories(catData.categories);
-    }).finally(() => setLoading(false));
-  }, []);
+    }).catch((err) => setError(err))
+    .finally(() => setLoading(false));
+  };
 
   const filtered = activities.filter((a) => {
     if (typeFilter && a.type !== typeFilter) return false;
@@ -50,10 +76,10 @@ export default function HomePage() {
             </motion.div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-main mb-3">
               <span className="gradient-text font-mono">//</span>{' '}
-              <span className="tracking-tight">精彩活动</span>
+              <span className="tracking-tight">{t('activities')}</span>
             </h2>
             <p className="text-muted max-w-xl mx-auto">
-              在这里发现团队的最新动态与项目成果
+              {t('activitiesDesc')}
             </p>
           </div>
         </ScrollReveal>
@@ -121,13 +147,24 @@ export default function HomePage() {
               <CardSkeleton key={i} />
             ))}
           </div>
+        ) : error ? (
+          <div className="text-center py-20">
+            <p className="text-muted text-sm font-mono mb-3">{t('errorLoadFailed')}</p>
+            <button
+              onClick={handleRetry}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-primary-400/20 text-sm text-primary-400 hover:bg-primary-500/10 transition-all font-mono"
+            >
+              <RefreshCw size={14} /> {t('retry')}
+            </button>
+          </div>
         ) : filtered.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-center py-20"
           >
-            <p className="text-muted text-lg font-mono">暂无活动</p>
+            <p className="text-muted text-lg font-mono">NO_ACTIVITIES_FOUND</p>
+            <p className="text-main text-sm mt-2">{t('noActivities')}</p>
           </motion.div>
         ) : (
           <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
