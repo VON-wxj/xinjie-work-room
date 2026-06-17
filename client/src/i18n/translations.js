@@ -129,7 +129,7 @@ const zh = {
   joinedAt: '加入于',
   // Footer
   footerTagline: 'Made with passion by',
-  footerBeta: '正式版 v1.0',
+  footerBeta: '正式版 v1.1',
 
   // Error / Generic
   errorLoadFailed: '加载失败，请稍后重试',
@@ -445,7 +445,7 @@ const en = {
   uncategorized: 'Uncategorized',
 
   footerTagline: 'Made with passion by',
-  footerBeta: 'v1.0',
+  footerBeta: 'v1.1',
 };
 
 export { zh, en };
