@@ -8,6 +8,7 @@ import {
 import { profileAPI } from '../../api';
 import useAuthStore from '../../store/auth';
 import useLanguage from '../../store/language';
+import { ImageUploader } from '../../components/admin/FileUploader';
 
 export default function ProfilePage() {
   const { user, token } = useAuthStore();
@@ -276,14 +277,9 @@ export default function ProfilePage() {
           >
             <div className="flex items-center gap-2 mb-3">
               <Camera size={16} className="text-accent-400" />
-              <h2 className="text-lg font-bold text-main font-mono">AVATAR</h2>
+              <h2 className="text-lg font-bold text-main font-mono">头像</h2>
             </div>
-            <input
-              value={form.avatar_url}
-              onChange={e => setForm({...form, avatar_url: e.target.value})}
-              className="w-full bg-transparent border border-primary-400/20 rounded-lg px-3 py-2 text-sm text-secondary outline-none focus:border-primary-400/50 font-mono"
-              placeholder="https://... （头像图片URL）"
-            />
+            <ImageUploader value={form.avatar_url} onChange={v => setForm({...form, avatar_url: v})} />
           </motion.div>
         )}
       </div>

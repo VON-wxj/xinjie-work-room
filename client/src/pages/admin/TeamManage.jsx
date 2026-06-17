@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import useAuthStore from '../../store/auth';
 import { teamAPI } from '../../api';
 import { Plus, Edit2, Trash2, Loader2, Save, X, Check } from 'lucide-react';
+import { ImageUploader } from '../../components/admin/FileUploader';
 
 const emptyForm = { name: '', role: '', title: '', bio: '', avatar_url: '', github_url: '', skills: '', join_date: '', is_founder: false, sort_order: 0 };
 
@@ -92,7 +93,7 @@ export default function TeamManage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className={labelClass}>头像 URL</label>
-                <input value={form.avatar_url} onChange={e => setForm({...form, avatar_url: e.target.value})} className={inputClass} placeholder="https://..." />
+                <ImageUploader value={form.avatar_url} onChange={v => setForm({...form, avatar_url: v})} />
               </div>
               <div>
                 <label className={labelClass}>GitHub URL</label>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { timelineAPI } from '../../api';
 import { Plus, Edit2, Trash2, Loader2 } from 'lucide-react';
+import { ImageUploader } from '../../components/admin/FileUploader';
 
 const emptyForm = { title: '', description: '', event_date: '', image_url: '', type: 'event', links: '' };
 
@@ -94,7 +95,7 @@ export default function TimelineManage() {
               </div>
               <div>
                 <label className={labelClass}>图片 URL</label>
-                <input value={form.image_url} onChange={e => setForm({...form, image_url: e.target.value})} className={inputClass} placeholder="https://..." />
+                <ImageUploader value={form.image_url} onChange={v => setForm({...form, image_url: v})} />
               </div>
             </div>
             <div>
