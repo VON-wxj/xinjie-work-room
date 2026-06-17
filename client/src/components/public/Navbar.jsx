@@ -42,6 +42,19 @@ export default function Navbar() {
             <Link to="/projects" className="text-sm font-medium text-secondary hover:text-primary-400 transition-colors">{t('projects_nav')}</Link>
             <Link to="/team" className="text-sm font-medium text-secondary hover:text-primary-400 transition-colors">{t('team')}</Link>
             <Link to="/about" className="text-sm font-medium text-secondary hover:text-primary-400 transition-colors">{t('about')}</Link>
+            <a
+              href="http://120.26.103.149"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-bold transition-all"
+              style={{
+                background: 'linear-gradient(135deg, #6366f1, #06b6d4)',
+                color: '#fff',
+                boxShadow: '0 0 16px rgba(99,102,241,0.3)',
+              }}
+            >
+              HarmonyTeam
+            </a>
 
             {user ? (
               <div className="flex items-center gap-4">
@@ -100,6 +113,16 @@ export default function Navbar() {
             <Link to="/projects" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('projects_nav')}</Link>
             <Link to="/team" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('team')}</Link>
             <Link to="/about" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('about')}</Link>
+            <a
+              href="http://120.26.103.149"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 py-2 text-sm font-bold"
+              style={{ color: '#06b6d4' }}
+              onClick={() => setMobileOpen(false)}
+            >
+              HarmonyTeam
+            </a>
             {user ? (
               <>
                 <Link to="/profile" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('profile')}</Link>

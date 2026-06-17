@@ -112,10 +112,10 @@ export default function CategoryManage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-main font-mono mb-6">CATEGORIES</h1>
+      <h1 className="text-2xl font-bold text-main font-mono mb-6">分类管理</h1>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <CategoryGroup title="PROFIT_CATEGORIES" items={categories.profit || []} parentType="profit" />
-        <CategoryGroup title="TEAM_CATEGORIES" items={categories.team_building || []} parentType="team_building" />
+        <CategoryGroup title="营利分类" items={categories.profit || []} parentType="profit" />
+        <CategoryGroup title="团建分类" items={categories.team_building || []} parentType="team_building" />
       </div>
     </div>
   );

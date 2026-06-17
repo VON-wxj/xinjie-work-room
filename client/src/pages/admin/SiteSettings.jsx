@@ -26,9 +26,9 @@ export default function SiteSettings() {
     setMessage('');
     try {
       await settingsAPI.update({ settings });
-      setMessage('SAVED_SUCCESSFULLY');
+      setMessage('保存成功');
       setTimeout(() => setMessage(''), 3000);
-    } catch { setMessage('SAVE_FAILED'); }
+    } catch { setMessage('保存失败'); }
     setSaving(false);
   };
 
@@ -37,19 +37,19 @@ export default function SiteSettings() {
   }
 
   const fields = [
-    { key: 'site_name', label: 'SITE_NAME' },
-    { key: 'site_description', label: 'SITE_DESCRIPTION' },
-    { key: 'site_logo', label: 'LOGO_URL' },
+    { key: 'site_name', label: '站点名称' },
+    { key: 'site_description', label: '站点描述' },
+    { key: 'site_logo', label: 'Logo URL' },
   ];
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-main font-mono mb-6">SETTINGS</h1>
+      <h1 className="text-2xl font-bold text-main font-mono mb-6">站点设置</h1>
 
       <div className="tech-card rounded-xl p-6 max-w-2xl">
         {message && (
           <div className={`mb-4 p-3 rounded-lg text-sm font-mono ${
-            message.includes('SUCCESS') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'
+            message.includes('成功') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'
           }`}>{message}</div>
         )}
 
@@ -73,7 +73,7 @@ export default function SiteSettings() {
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg btn-glow text-main font-semibold disabled:opacity-50"
             >
               {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-              SAVE
+              保存
             </button>
           </div>
         </form>

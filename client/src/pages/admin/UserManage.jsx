@@ -87,11 +87,11 @@ export default function UserManage() {
             <table className="w-full text-sm table-tech">
               <thead>
                 <tr className="border-b border-white/5">
-                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">USER</th>
-                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">ROLE</th>
-                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">STATUS</th>
-                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">REGISTERED</th>
-                  <th className="text-right px-5 py-3 font-semibold text-secondary font-mono text-xs">ACTIONS</th>
+                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">用户</th>
+                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">角色</th>
+                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">状态</th>
+                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">注册时间</th>
+                  <th className="text-right px-5 py-3 font-semibold text-secondary font-mono text-xs">操作</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -111,7 +111,7 @@ export default function UserManage() {
                         u.role === 'admin' ? 'bg-primary-500/10 text-primary-400 border-primary-400/20' : 'bg-gray-500/10 text-secondary border-gray-500/20'
                       }`}>
                         {u.role === 'super_admin' ? <Shield size={11} /> : u.role === 'admin' ? <UserCog size={11} /> : null}
-                        {u.role === 'super_admin' ? 'ROOT' : u.role === 'admin' ? 'ADMIN' : 'USER'}
+                        {u.role === 'super_admin' ? '超级管理员' : u.role === 'admin' ? '管理员' : '用户'}
                       </span>
                     </td>
                     <td className="px-5 py-3">
@@ -121,14 +121,14 @@ export default function UserManage() {
                           u.status === 'active' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
                         }`}
                       >
-                        {u.status === 'active' ? 'ACTIVE' : 'DISABLED'}
+                        {u.status === 'active' ? '正常' : '已禁用'}
                       </button>
                     </td>
                     <td className="px-5 py-3 text-muted font-mono text-xs">{new Date(u.created_at).toLocaleDateString('zh-CN')}</td>
                     <td className="px-5 py-3 text-right">
                       {u.role !== 'super_admin' && (
                         <button onClick={() => handleDelete(u)} className="px-3 py-1 rounded-lg text-xs font-medium text-red-400 hover:bg-red-500/10 transition-colors">
-                          DELETE
+                          删除
                         </button>
                       )}
                     </td>

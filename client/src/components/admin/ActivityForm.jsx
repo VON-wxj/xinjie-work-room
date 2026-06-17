@@ -47,11 +47,11 @@ export default function ActivityForm({ initialData, onSubmit, loading }) {
     <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
       {/* Type */}
       <div>
-        <label className={labelClass}>TYPE</label>
+        <label className={labelClass}>类型</label>
         <div className="flex gap-3">
           {[
-            { value: 'profit', label: 'PROFIT' },
-            { value: 'team_building', label: 'TEAM' },
+            { value: 'profit', label: '营利' },
+            { value: 'team_building', label: '团建' },
           ].map(({ value, label }) => (
             <button
               key={value}
@@ -72,7 +72,7 @@ export default function ActivityForm({ initialData, onSubmit, loading }) {
       {/* Category & Status */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className={labelClass}>CATEGORY</label>
+          <label className={labelClass}>分类</label>
           <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className={`${inputClass} select-tech`}>
             <option value="">未分类</option>
             {(categories[type] || []).map((cat) => (
@@ -81,18 +81,18 @@ export default function ActivityForm({ initialData, onSubmit, loading }) {
           </select>
         </div>
         <div>
-          <label className={labelClass}>STATUS</label>
+          <label className={labelClass}>状态</label>
           <select value={status} onChange={(e) => setStatus(e.target.value)} className={`${inputClass} select-tech`}>
-            <option value="published">PUBLISHED</option>
-            <option value="draft">DRAFT</option>
-            <option value="archived">ARCHIVED</option>
+            <option value="published">已发布</option>
+            <option value="draft">草稿</option>
+            <option value="archived">已归档</option>
           </select>
         </div>
       </div>
 
       {/* Title */}
       <div>
-        <label className={labelClass}>TITLE *</label>
+        <label className={labelClass}>标题 *</label>
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="请输入活动标题" className={inputClass} required />
       </div>
 
@@ -100,15 +100,15 @@ export default function ActivityForm({ initialData, onSubmit, loading }) {
       {type === 'profit' && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-accent-500/5 border border-accent-500/10">
           <div>
-            <label className={labelClass}>URL</label>
+            <label className={labelClass}>网址</label>
             <input type="url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://..." className={inputClass} />
           </div>
           <div>
-            <label className={labelClass}>PROFIT (¥)</label>
+            <label className={labelClass}>利润 (¥)</label>
             <input type="number" step="0.01" value={profit} onChange={(e) => setProfit(e.target.value)} placeholder="0.00" className={inputClass} />
           </div>
           <div className="sm:col-span-3">
-            <label className={labelClass}>ATTACHMENTS</label>
+            <label className={labelClass}>附件</label>
             <FileUploader value={attachments} onChange={setAttachments} />
           </div>
         </div>
@@ -117,30 +117,30 @@ export default function ActivityForm({ initialData, onSubmit, loading }) {
       {/* Dates */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className={labelClass}>START_DATE</label>
+          <label className={labelClass}>开始日期</label>
           <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className={inputClass} />
         </div>
         <div>
-          <label className={labelClass}>END_DATE</label>
+          <label className={labelClass}>结束日期</label>
           <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className={inputClass} />
         </div>
       </div>
 
       {/* Location */}
       <div>
-        <label className={labelClass}>LOCATION</label>
+        <label className={labelClass}>地点</label>
         <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="可选" className={inputClass} />
       </div>
 
       {/* Cover */}
       <div>
-        <label className={labelClass}>COVER_IMAGE</label>
+        <label className={labelClass}>封面图片</label>
         <ImageUploader value={coverImage} onChange={setCoverImage} />
       </div>
 
       {/* Content */}
       <div>
-        <label className={labelClass}>CONTENT (Markdown)</label>
+        <label className={labelClass}>内容 (Markdown)</label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -157,7 +157,7 @@ export default function ActivityForm({ initialData, onSubmit, loading }) {
           disabled={loading || !title.trim()}
           className="px-6 py-2.5 rounded-lg btn-glow text-main font-semibold disabled:opacity-50"
         >
-          {loading ? 'SAVING...' : initialData ? 'UPDATE' : 'CREATE'}
+          {loading ? '保存中...' : initialData ? '更新' : '创建'}
         </button>
       </div>
     </form>

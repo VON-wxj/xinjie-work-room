@@ -64,7 +64,7 @@ export default function CommentManage() {
                         c.status === 'approved' ? 'bg-emerald-500/10 text-emerald-400' :
                         c.status === 'pending' ? 'bg-yellow-500/10 text-yellow-400' : 'bg-red-500/10 text-red-400'
                       }`}>
-                        {c.status === 'approved' ? 'APPROVED' : c.status === 'pending' ? 'PENDING' : 'REJECTED'}
+                        {c.status === 'approved' ? '已通过' : c.status === 'pending' ? '待审核' : '已拒绝'}
                       </span>
                       <span className="text-xs text-muted font-mono">{new Date(c.created_at).toLocaleDateString('zh-CN')}</span>
                     </div>

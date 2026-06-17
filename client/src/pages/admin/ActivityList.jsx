@@ -75,12 +75,12 @@ export default function ActivityList() {
               <table className="w-full text-sm table-tech">
                 <thead>
                   <tr className="border-b border-white/5">
-                    <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">TITLE</th>
-                    <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">TYPE</th>
-                    <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">STATUS</th>
-                    <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">PROFIT</th>
-                    <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">CREATED</th>
-                    <th className="text-right px-5 py-3 font-semibold text-secondary font-mono text-xs">ACTIONS</th>
+                    <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">标题</th>
+                    <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">类型</th>
+                    <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">状态</th>
+                    <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">利润</th>
+                    <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">创建时间</th>
+                    <th className="text-right px-5 py-3 font-semibold text-secondary font-mono text-xs">操作</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -93,7 +93,7 @@ export default function ActivityList() {
                             ? 'bg-accent-500/10 text-accent-400 border-accent-500/20'
                             : 'bg-primary-500/10 text-primary-400 border-primary-400/20'
                         }`}>
-                          {a.type === 'profit' ? 'PROFIT' : 'TEAM'}
+                          {a.type === 'profit' ? '营利' : '团建'}
                         </span>
                       </td>
                       <td className="px-5 py-3">
@@ -101,7 +101,7 @@ export default function ActivityList() {
                           a.status === 'published' ? 'bg-emerald-500/10 text-emerald-400' :
                           a.status === 'draft' ? 'bg-yellow-500/10 text-yellow-400' : 'bg-gray-500/10 text-secondary'
                         }`}>
-                          {a.status === 'published' ? 'PUBLISHED' : a.status === 'draft' ? 'DRAFT' : 'ARCHIVED'}
+                          {a.status === 'published' ? '已发布' : a.status === 'draft' ? '草稿' : '已归档'}
                         </span>
                       </td>
                       <td className="px-5 py-3 text-secondary font-mono">

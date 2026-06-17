@@ -5,16 +5,16 @@ import { logAPI } from '../../api';
 import { Loader2, FileText, Clock, User } from 'lucide-react';
 
 const actionLabels = {
-  create_activity: 'CREATE_ACT',
-  update_activity: 'UPDATE_ACT',
-  delete_activity: 'DELETE_ACT',
-  create_category: 'CREATE_CAT',
-  delete_category: 'DELETE_CAT',
-  create_admin: 'CREATE_ADMIN',
-  update_user: 'UPDATE_USER',
-  delete_user: 'DELETE_USER',
-  update_settings: 'UPDATE_SETTINGS',
-  update_comment_status: 'REVIEW_COMMENT',
+  create_activity: '创建活动',
+  update_activity: '更新活动',
+  delete_activity: '删除活动',
+  create_category: '创建分类',
+  delete_category: '删除分类',
+  create_admin: '创建管理员',
+  update_user: '更新用户',
+  delete_user: '删除用户',
+  update_settings: '更新设置',
+  update_comment_status: '审核评论',
 };
 
 export default function OperationLogs() {
@@ -40,7 +40,7 @@ export default function OperationLogs() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-main font-mono">OPERATION_LOGS ({total})</h1>
+        <h1 className="text-2xl font-bold text-main font-mono">操作日志 ({total})</h1>
         <select
           value={actionFilter}
           onChange={(e) => { setActionFilter(e.target.value); setPage(1); }}
@@ -57,7 +57,7 @@ export default function OperationLogs() {
         {loading ? (
           <div className="flex items-center justify-center py-12"><Loader2 size={28} className="animate-spin text-primary-400/50" /></div>
         ) : logs.length === 0 ? (
-          <div className="py-12 text-center text-sm text-muted font-mono">NO_LOGS</div>
+          <div className="py-12 text-center text-sm text-muted font-mono">暂无日志</div>
         ) : (
           <div className="divide-y divide-white/5">
             {logs.map((log) => (
@@ -80,7 +80,7 @@ export default function OperationLogs() {
                     {log.detail && <p className="text-xs text-muted mt-0.5">{log.detail}</p>}
                   </div>
                   <div className="flex items-center gap-4 text-xs text-muted flex-shrink-0 font-mono">
-                    <span className="flex items-center gap-1"><User size={11} />{log.username || 'SYSTEM'}</span>
+                    <span className="flex items-center gap-1"><User size={11} />{log.username || '系统'}</span>
                     <span className="flex items-center gap-1"><Clock size={11} />{new Date(log.created_at).toLocaleString('zh-CN')}</span>
                   </div>
                 </div>

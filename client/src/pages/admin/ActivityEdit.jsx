@@ -47,7 +47,7 @@ export default function ActivityEdit() {
           <ArrowLeft size={18} />
         </button>
         <h1 className="text-2xl font-bold text-main font-mono">
-          {isEdit ? 'EDIT_ACTIVITY' : 'NEW_ACTIVITY'}
+          {isEdit ? '编辑活动' : '新建活动'}
         </h1>
       </div>
 

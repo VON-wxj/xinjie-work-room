@@ -75,7 +75,7 @@ export default function ApplicationManage() {
                           app.status === 'pending' ? 'bg-yellow-500/10 text-yellow-400' :
                           app.status === 'approved' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
                         }`}>
-                          {app.status === 'pending' ? 'PENDING' : app.status === 'approved' ? 'APPROVED' : 'REJECTED'}
+                          {app.status === 'pending' ? '待审核' : app.status === 'approved' ? '已通过' : '已拒绝'}
                         </span>
                       </div>
                     </div>

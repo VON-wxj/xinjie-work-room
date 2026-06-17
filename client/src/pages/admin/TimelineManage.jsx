@@ -5,10 +5,10 @@ import { Plus, Edit2, Trash2, Loader2 } from 'lucide-react';
 const emptyForm = { title: '', description: '', event_date: '', image_url: '', type: 'event', links: '' };
 
 const typeOptions = [
-  { value: 'milestone', label: 'MILESTONE' },
-  { value: 'event', label: 'EVENT' },
-  { value: 'team', label: 'TEAM' },
-  { value: 'achievement', label: 'ACHIEVEMENT' },
+  { value: 'milestone', label: '里程碑' },
+  { value: 'event', label: '活动' },
+  { value: 'team', label: '团建' },
+  { value: 'achievement', label: '成就' },
 ];
 
 export default function TimelineManage() {
@@ -73,7 +73,7 @@ export default function TimelineManage() {
 
       {editing !== null && (
         <div className="tech-card rounded-xl p-6 mb-6">
-          <h2 className="font-semibold text-main font-mono text-sm mb-4">{editing === 'new' ? 'NEW_EVENT' : 'EDIT_EVENT'}</h2>
+          <h2 className="font-semibold text-main font-mono text-sm mb-4">{editing === 'new' ? '新建事件' : '编辑事件'}</h2>
           <form onSubmit={handleSave} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="sm:col-span-2">
@@ -107,9 +107,9 @@ export default function TimelineManage() {
             </div>
             <div className="flex items-center gap-3 pt-2">
               <button type="submit" disabled={saving} className="px-4 py-2 rounded-lg bg-primary-500/20 text-primary-400 border border-primary-500/30 text-sm font-medium hover:bg-primary-500/30">
-                {saving ? 'SAVING...' : 'SAVE'}
+                {saving ? '保存中...' : '保存'}
               </button>
-              <button type="button" onClick={() => setEditing(null)} className="px-4 py-2 rounded-lg bg-white/5 text-sm text-muted hover:bg-white/10">CANCEL</button>
+              <button type="button" onClick={() => setEditing(null)} className="px-4 py-2 rounded-lg bg-white/5 text-sm text-muted hover:bg-white/10">取消</button>
             </div>
           </form>
         </div>
@@ -123,11 +123,11 @@ export default function TimelineManage() {
             <table className="w-full text-sm table-tech">
               <thead>
                 <tr className="border-b border-white/5">
-                  <th className="text-left px-4 py-3 font-semibold text-secondary font-mono text-xs">DATE</th>
-                  <th className="text-left px-4 py-3 font-semibold text-secondary font-mono text-xs">TYPE</th>
-                  <th className="text-left px-4 py-3 font-semibold text-secondary font-mono text-xs">TITLE</th>
-                  <th className="text-left px-4 py-3 font-semibold text-secondary font-mono text-xs">IMAGE</th>
-                  <th className="text-right px-4 py-3 font-semibold text-secondary font-mono text-xs">ACTIONS</th>
+                  <th className="text-left px-4 py-3 font-semibold text-secondary font-mono text-xs">日期</th>
+                  <th className="text-left px-4 py-3 font-semibold text-secondary font-mono text-xs">类型</th>
+                  <th className="text-left px-4 py-3 font-semibold text-secondary font-mono text-xs">标题</th>
+                  <th className="text-left px-4 py-3 font-semibold text-secondary font-mono text-xs">图片</th>
+                  <th className="text-right px-4 py-3 font-semibold text-secondary font-mono text-xs">操作</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -139,7 +139,7 @@ export default function TimelineManage() {
                     </td>
                     <td className="px-4 py-3 text-secondary font-medium">{ev.title}</td>
                     <td className="px-4 py-3 text-muted text-xs">
-                      {ev.image_url ? <span className="text-emerald-400 font-mono">HAS_IMAGE</span> : <span className="text-muted font-mono">NONE</span>}
+                      {ev.image_url ? <span className="text-emerald-400 font-mono">有图</span> : <span className="text-muted font-mono">无</span>}
                     </td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex items-center justify-end gap-2">

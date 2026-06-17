@@ -56,7 +56,7 @@ export default function ProjectManage() {
 
       {editing !== null && (
         <div className="tech-card rounded-xl p-6 mb-6">
-          <h2 className="font-semibold text-main font-mono text-sm mb-4">{editing === 'new' ? 'NEW_PROJECT' : 'EDIT_PROJECT'}</h2>
+          <h2 className="font-semibold text-main font-mono text-sm mb-4">{editing === 'new' ? '新建项目' : '编辑项目'}</h2>
           <form onSubmit={handleSave} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -95,9 +95,9 @@ export default function ProjectManage() {
             </div>
             <div className="flex items-center gap-3 pt-2">
               <button type="submit" disabled={saving} className="px-4 py-2 rounded-lg bg-primary-500/20 text-primary-400 border border-primary-500/30 text-sm font-medium hover:bg-primary-500/30">
-                {saving ? 'SAVING...' : 'SAVE'}
+                {saving ? '保存中...' : '保存'}
               </button>
-              <button type="button" onClick={() => setEditing(null)} className="px-4 py-2 rounded-lg bg-white/5 text-sm text-muted hover:bg-white/10">CANCEL</button>
+              <button type="button" onClick={() => setEditing(null)} className="px-4 py-2 rounded-lg bg-white/5 text-sm text-muted hover:bg-white/10">取消</button>
             </div>
           </form>
         </div>
@@ -111,10 +111,10 @@ export default function ProjectManage() {
             <table className="w-full text-sm table-tech">
               <thead>
                 <tr className="border-b border-white/5">
-                  <th className="text-left px-4 py-3 font-semibold text-muted font-mono text-xs">TITLE</th>
-                  <th className="text-left px-4 py-3 font-semibold text-muted font-mono text-xs">IMAGE</th>
-                  <th className="text-left px-4 py-3 font-semibold text-muted font-mono text-xs">STATUS</th>
-                  <th className="text-right px-4 py-3 font-semibold text-muted font-mono text-xs">ACTIONS</th>
+                  <th className="text-left px-4 py-3 font-semibold text-muted font-mono text-xs">标题</th>
+                  <th className="text-left px-4 py-3 font-semibold text-muted font-mono text-xs">图片</th>
+                  <th className="text-left px-4 py-3 font-semibold text-muted font-mono text-xs">状态</th>
+                  <th className="text-right px-4 py-3 font-semibold text-muted font-mono text-xs">操作</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">

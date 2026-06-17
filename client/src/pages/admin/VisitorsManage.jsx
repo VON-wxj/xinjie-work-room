@@ -49,10 +49,10 @@ export default function VisitorsManage() {
             <table className="w-full text-sm table-tech">
               <thead>
                 <tr className="border-b border-white/5">
-                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">USERNAME</th>
-                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">STATUS</th>
-                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">REGISTERED</th>
-                  <th className="text-right px-5 py-3 font-semibold text-secondary font-mono text-xs">ACTIONS</th>
+                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">用户名</th>
+                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">状态</th>
+                  <th className="text-left px-5 py-3 font-semibold text-secondary font-mono text-xs">注册时间</th>
+                  <th className="text-right px-5 py-3 font-semibold text-secondary font-mono text-xs">操作</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -81,7 +81,7 @@ export default function VisitorsManage() {
                         onClick={() => handleDelete(u)}
                         className="px-3 py-1 rounded-lg text-xs font-medium text-red-400 hover:bg-red-500/10 transition-colors"
                       >
-                        DELETE
+                        删除
                       </button>
                     </td>
                   </tr>
