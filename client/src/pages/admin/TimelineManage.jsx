@@ -135,7 +135,7 @@ export default function TimelineManage() {
                   <tr key={ev.id} className="hover:bg-white/[0.02]">
                     <td className="px-4 py-3 text-secondary font-mono text-xs">{ev.event_date}</td>
                     <td className="px-4 py-3">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-primary-500/10 text-primary-400 border border-primary-500/20">{ev.type}</span>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-primary-500/10 text-primary-400 border border-primary-500/20">{typeOptions.find(t => t.value === ev.type)?.label || ev.type}</span>
                     </td>
                     <td className="px-4 py-3 text-secondary font-medium">{ev.title}</td>
                     <td className="px-4 py-3 text-muted text-xs">
