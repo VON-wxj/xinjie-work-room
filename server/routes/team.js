@@ -60,7 +60,26 @@ router.put('/:id', superAdminAuth, (req, res) => {
 router.delete('/:id', superAdminAuth, (req, res) => {
   const existing = db.prepare('SELECT * FROM team_members WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: '成员不存在' });
+
+  // Downgrade linked user to regular user (except super_admin)
+  if (existing.user_id) {
+    const user = db.prepare('SELECT role FROM users WHERE id = ?').get(existing.user_id);
+    if (user && user.role !== 'super_admin') {
+      db.prepare('UPDATE users SET role = ? WHERE id = ?').run('user', existing.user_id);
+    }
+  }
+
   db.prepare('DELETE FROM team_members WHERE id = ?').run(req.params.id);
+
+  logOperation({
+    userId: req.user.id,
+    action: 'delete_member',
+    targetType: 'team_member',
+    targetId: Number(req.params.id),
+    detail: { name: existing.name },
+    ip: req.ip,
+  });
+
   return res.json({ success: true });
 });
 

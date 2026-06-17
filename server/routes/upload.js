@@ -29,6 +29,9 @@ router.post('/image', adminAuth, uploadImage.single('image'), async (req, res) =
 
   try {
     const compressedPath = await compressImage(req.file.path);
+    if (!compressedPath) {
+      return res.status(500).json({ error: '图片压缩失败，文件可能已丢失' });
+    }
     const url = toUrl(compressedPath);
     return res.json({ url, filename: req.file.filename });
   } catch (err) {
@@ -62,8 +65,8 @@ router.delete('/:filepath', adminAuth, (req, res) => {
 
   // Also try deleting the .webp variant
   const ext = path.extname(resolved);
-  if (ext) {
-    const webpPath = resolved.replace(ext, '.webp');
+  if (ext && ext !== '.webp') {
+    const webpPath = resolved.slice(0, -ext.length) + '.webp';
     try { if (fs.existsSync(webpPath)) fs.unlinkSync(webpPath); } catch {}
   }
 

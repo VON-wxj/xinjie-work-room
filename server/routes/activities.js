@@ -4,6 +4,13 @@ import { adminAuth } from '../middleware/auth.js';
 import { uploadImage, uploadFile } from '../middleware/upload.js';
 import { logOperation } from '../utils/logger.js';
 import fs from 'fs';
+import path from 'path';
+import config from '../config.js';
+
+function toUrl(absolutePath) {
+  const relative = path.relative(config.uploadDir, absolutePath);
+  return '/uploads/' + relative.replace(/\\/g, '/');
+}
 
 const router = Router();
 
@@ -228,8 +235,9 @@ router.post('/:id/photos', adminAuth, uploadImage.array('photos', 10), (req, res
   const insert = db.prepare('INSERT INTO photos (activity_id, file_path, sort_order) VALUES (?, ?, ?)');
   const photos = [];
   for (const file of files) {
-    const result = insert.run(req.params.id, file.path, photos.length);
-    photos.push({ id: result.lastInsertRowid, file_path: file.path });
+    const url = toUrl(file.path);
+    const result = insert.run(req.params.id, url, photos.length);
+    photos.push({ id: result.lastInsertRowid, file_path: url });
   }
 
   return res.status(201).json({ photos });
@@ -240,7 +248,10 @@ router.delete('/:id/photos/:photoId', adminAuth, (req, res) => {
   if (!photo) {
     return res.status(404).json({ error: '图片不存在' });
   }
-  try { fs.unlinkSync(photo.file_path); } catch {}
+  const absolutePath = photo.file_path.startsWith('/uploads/')
+    ? path.join(config.uploadDir, photo.file_path.slice(9))
+    : photo.file_path;
+  try { fs.unlinkSync(absolutePath); } catch {}
   db.prepare('DELETE FROM photos WHERE id = ?').run(req.params.photoId);
   return res.json({ success: true });
 });
@@ -262,12 +273,13 @@ router.post('/:id/attachments', adminAuth, uploadFile.array('files', 10), (req, 
   );
   const attachments = [];
   for (const file of files) {
-    const result = insert.run(req.params.id, file.filename, file.originalname, file.path, file.size, file.mimetype);
+    const url = toUrl(file.path);
+    const result = insert.run(req.params.id, file.filename, file.originalname, url, file.size, file.mimetype);
     attachments.push({
       id: result.lastInsertRowid,
       filename: file.filename,
       original_name: file.originalname,
-      file_path: file.path,
+      file_path: url,
       file_size: file.size,
     });
   }
@@ -280,7 +292,10 @@ router.delete('/:id/attachments/:attId', adminAuth, (req, res) => {
   if (!att) {
     return res.status(404).json({ error: '文件不存在' });
   }
-  try { fs.unlinkSync(att.file_path); } catch {}
+  const absolutePath = att.file_path.startsWith('/uploads/')
+    ? path.join(config.uploadDir, att.file_path.slice(9))
+    : att.file_path;
+  try { fs.unlinkSync(absolutePath); } catch {}
   db.prepare('DELETE FROM attachments WHERE id = ?').run(req.params.attId);
   return res.json({ success: true });
 });

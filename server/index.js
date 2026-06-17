@@ -68,6 +68,7 @@ import profileRoutes from './routes/profile.js';
 import projectRoutes from './routes/projects.js';
 import proxyRoutes from './routes/proxy.js';
 import chatRoutes from './routes/chat.js';
+import applicationRoutes from './routes/applications.js';
 
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/activities', activityRoutes);
@@ -84,6 +85,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/proxy', proxyRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/applications', applicationRoutes);
 
 // 生产环境：同一端口托管前端静态文件（前后端同源部署）
 const distPath = config.clientDist;

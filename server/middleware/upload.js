@@ -16,7 +16,8 @@ const storage = multer.diskStorage({
     cb(null, dir);
   },
   filename: (_req, file, cb) => {
-    const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const ext = path.extname(file.originalname).toLowerCase();
+    const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`;
     cb(null, name);
   },
 });
@@ -49,13 +50,17 @@ export async function compressImage(filePath) {
 
     // Replace original with compressed .webp version
     const ext = path.extname(filePath).toLowerCase();
-    const newPath = filePath.replace(ext, '.webp');
+    const newPath = ext ? filePath.slice(0, -ext.length) + '.webp' : filePath + '.webp';
     fs.unlinkSync(filePath);
     fs.renameSync(tmpPath, newPath);
 
     return newPath;
   } catch (err) {
     console.error('Image compression failed:', err.message);
-    return filePath; // Return original if compression fails
+    // Clean up tmp file if it exists (e.g. rename failed after unlink)
+    const tmpPath = filePath + '.tmp';
+    try { if (fs.existsSync(tmpPath)) fs.unlinkSync(tmpPath); } catch {}
+    if (fs.existsSync(filePath)) return filePath;
+    return null; // File was lost — caller should handle
   }
 }

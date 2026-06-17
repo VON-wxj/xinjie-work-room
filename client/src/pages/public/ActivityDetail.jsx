@@ -248,7 +248,7 @@ export default function ActivityDetail() {
                     className="aspect-square rounded-lg overflow-hidden bg-surface-200 border border-white/5"
                   >
                     <img
-                      src={`/${photo.file_path}`}
+                      src={photo.file_path}
                       alt=""
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                       loading="lazy" decoding="async" onError={onImgError}
@@ -272,7 +272,7 @@ export default function ActivityDetail() {
                 {activity.attachments.map((att) => (
                   <a
                     key={att.id}
-                    href={`/${att.file_path}`}
+                    href={att.file_path}
                     download={att.original_name}
                     className="flex items-center justify-between tech-card rounded-lg px-4 py-3"
                   >

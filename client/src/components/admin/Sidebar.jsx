@@ -3,7 +3,7 @@ import useAuthStore from '../../store/auth';
 import useLanguage from '../../store/language';
 import {
   LayoutDashboard, CalendarRange, Tags, MessageSquareText,
-  Users, Settings, FileText, X, Zap, UserCog, GitBranch, Eye, FolderKanban,
+  Users, Settings, FileText, X, Zap, UserCog, GitBranch, Eye, FolderKanban, UserPlus,
   ArrowLeft, Home,
 } from 'lucide-react';
 
@@ -30,6 +30,7 @@ export default function Sidebar({ onClose }) {
   const superLinks = [
     { to: '/admin/users', icon: Users, label: '管理员' },
     { to: '/admin/settings', icon: Settings, label: '站点设置' },
+    { to: '/admin/applications', icon: UserPlus, label: '团队申请' },
     { to: '/admin/logs', icon: FileText, label: '操作日志' },
   ];
 
