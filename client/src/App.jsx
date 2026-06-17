@@ -14,6 +14,7 @@ const LoginPage = lazy(() => import('./pages/public/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/public/RegisterPage'));
 const ProfilePage = lazy(() => import('./pages/public/ProfilePage'));
 const ProjectsPage = lazy(() => import('./pages/public/ProjectsPage'));
+const AboutPage = lazy(() => import('./pages/public/AboutPage'));
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const ActivityList = lazy(() => import('./pages/admin/ActivityList'));
 const ActivityEdit = lazy(() => import('./pages/admin/ActivityEdit'));
@@ -68,6 +69,7 @@ export default function App() {
         <Route path="/profile" element={<PageTransition><ProfilePage /></PageTransition>} />
         <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
         <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
+        <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
       </Route>
 
       {/* Admin */}

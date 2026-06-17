@@ -1,6 +1,7 @@
 const zh = {
   // Nav
   home: '首页',
+  about: '关于',
   projects_nav: '项目',
   team: '团队',
   login: '登录',
@@ -11,6 +12,11 @@ const zh = {
   backToFrontend: '返回前台',
   backToAdmin: '返回后台',
   welcome: '欢迎来到芯捷工作室',
+
+  // About
+  aboutTitle: '关于芯捷工作室',
+  aboutDesc: '团队发展历程与版本更新记录',
+  updateHistory: '更新记录',
 
   // Hero
   heroTitle: '团队活动',
@@ -123,7 +129,7 @@ const zh = {
   joinedAt: '加入于',
   // Footer
   footerTagline: 'Made with passion by',
-  footerBeta: '测试版 v1.0',
+  footerBeta: '正式版 v1.0',
 
   // Error / Generic
   errorLoadFailed: '加载失败，请稍后重试',
@@ -225,6 +231,7 @@ const zh = {
 
 const en = {
   home: 'Home',
+  about: 'About',
   projects_nav: 'Projects',
   team: 'Team',
   login: 'Login',
@@ -265,6 +272,10 @@ const en = {
   event: 'EVENT',
   teamBuilding: 'TEAM',
   achievement: 'WIN',
+
+  aboutTitle: 'About Xinjie Studio',
+  aboutDesc: 'Team journey and version changelog',
+  updateHistory: 'CHANGELOG',
 
   // Projects
   projectShowcase: 'PROJECTS',
@@ -434,7 +445,7 @@ const en = {
   uncategorized: 'Uncategorized',
 
   footerTagline: 'Made with passion by',
-  footerBeta: 'Beta v1.0',
+  footerBeta: 'v1.0',
 };
 
 export { zh, en };

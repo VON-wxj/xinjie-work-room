@@ -41,6 +41,7 @@ export default function Navbar() {
             <Link to="/" className="text-sm font-medium text-secondary hover:text-primary-400 transition-colors">{t('home')}</Link>
             <Link to="/projects" className="text-sm font-medium text-secondary hover:text-primary-400 transition-colors">{t('projects_nav')}</Link>
             <Link to="/team" className="text-sm font-medium text-secondary hover:text-primary-400 transition-colors">{t('team')}</Link>
+            <Link to="/about" className="text-sm font-medium text-secondary hover:text-primary-400 transition-colors">{t('about')}</Link>
 
             {user ? (
               <div className="flex items-center gap-4">
@@ -98,6 +99,7 @@ export default function Navbar() {
             <Link to="/" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('home')}</Link>
             <Link to="/projects" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('projects_nav')}</Link>
             <Link to="/team" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('team')}</Link>
+            <Link to="/about" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('about')}</Link>
             {user ? (
               <>
                 <Link to="/profile" className="block py-2 text-sm text-secondary" onClick={() => setMobileOpen(false)}>{t('profile')}</Link>
