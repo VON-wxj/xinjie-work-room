@@ -122,6 +122,28 @@ const seed = () => {
     }
   }
 
+  // Seed creator experiences
+  const creatorExperiences = [
+    { title: '芯捷工作室成立', description: '创立芯捷工作室，集结 8 名志同道合的伙伴，开启团队协作与技术探索之路。', event_date: '2025.11', sort_order: 0 },
+    { title: '南昌鸿蒙极客分享会', description: '带领团队成员丁博、李豪然参加南昌鸿蒙极客分享会，深入学习鸿蒙生态技术。', event_date: '2025.12', sort_order: 1 },
+    { title: '腾讯云社区创作之星', description: '荣获腾讯云社区创作之星称号，技术内容创作能力获得平台认可。', event_date: '2025.12', sort_order: 2 },
+    { title: '鸿蒙跨平台训练营', description: '寒假期间发起鸿蒙跨平台训练营，带领 10+ 人产出技术文章 500 余篇，推动鸿蒙生态内容建设。', event_date: '2026.01', sort_order: 3 },
+    { title: '鸿蒙开发实战训练营', description: '信息工程学院 × 鸿蒙生态联合举办春季训练营，持续推动鸿蒙技术在高校的普及与应用。', event_date: '2026.03', sort_order: 4 },
+    { title: 'G-Star 武汉站', description: '参加 G-Star 武汉站技术大会，与业界开发者交流学习，拓展技术视野。', event_date: '2026.03', sort_order: 5 },
+    { title: '计算机设计大赛', description: '与王钊杰、蔡新佳组队参加计算机设计大赛，以实战项目检验团队技术实力。', event_date: '2026.05', sort_order: 6 },
+    { title: '工作室正式版上线', description: '芯捷工作室平台从测试版升级为正式版，新增后台管理中文化、图片上传修复、前端性能优化等功能。', event_date: '2026.06', sort_order: 7 },
+  ];
+
+  const insertExp = db.prepare(
+    'INSERT INTO creator_experiences (title, description, event_date, sort_order) VALUES (?, ?, ?, ?)'
+  );
+  for (const exp of creatorExperiences) {
+    const exists = db.prepare('SELECT id FROM creator_experiences WHERE title = ? AND event_date = ?').get(exp.title, exp.event_date);
+    if (!exists) {
+      insertExp.run(exp.title, exp.description, exp.event_date, exp.sort_order);
+    }
+  }
+
   console.log('Seed complete.');
   process.exit(0);
 };

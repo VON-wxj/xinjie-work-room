@@ -29,6 +29,7 @@ const TimelineManage = lazy(() => import('./pages/admin/TimelineManage'));
 const ProjectManage = lazy(() => import('./pages/admin/ProjectManage'));
 const VisitorsManage = lazy(() => import('./pages/admin/VisitorsManage'));
 const ApplicationManage = lazy(() => import('./pages/admin/ApplicationManage'));
+const CreatorManage = lazy(() => import('./pages/admin/CreatorManage'));
 
 function PageLoader() {
   return (
@@ -90,6 +91,7 @@ export default function App() {
         <Route path="users" element={<PageTransition><UserManage /></PageTransition>} />
         <Route path="settings" element={<PageTransition><SiteSettings /></PageTransition>} />
         <Route path="logs" element={<PageTransition><OperationLogs /></PageTransition>} />
+        <Route path="creator" element={<PageTransition><CreatorManage /></PageTransition>} />
       </Route>
     </Routes>
   );

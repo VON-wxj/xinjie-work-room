@@ -4,7 +4,7 @@ import useLanguage from '../../store/language';
 import {
   LayoutDashboard, CalendarRange, Tags, MessageSquareText,
   Users, Settings, FileText, X, Zap, UserCog, GitBranch, Eye, FolderKanban, UserPlus,
-  ArrowLeft, Home,
+  ArrowLeft, Home, Star,
 } from 'lucide-react';
 
 export default function Sidebar({ onClose }) {
@@ -31,6 +31,7 @@ export default function Sidebar({ onClose }) {
     { to: '/admin/users', icon: Users, label: '管理员' },
     { to: '/admin/settings', icon: Settings, label: '站点设置' },
     { to: '/admin/applications', icon: UserPlus, label: '团队申请' },
+    { to: '/admin/creator', icon: Star, label: '创作者经历' },
     { to: '/admin/logs', icon: FileText, label: '操作日志' },
   ];
 
