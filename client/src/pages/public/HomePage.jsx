@@ -4,7 +4,6 @@ import { activityAPI, categoryAPI } from '../../api';
 import HeroSection from '../../components/public/HeroSection';
 import TeamSection from '../../components/public/TeamSection';
 import Timeline from '../../components/public/Timeline';
-import CreatorTimeline from '../../components/public/CreatorTimeline';
 import ActivityCard from '../../components/public/ActivityCard';
 import ScrollReveal, { StaggerContainer, StaggerItem } from '../../components/public/ScrollReveal';
 import { CardSkeleton } from '../../components/public/AnimatedCounter';
@@ -62,7 +61,6 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <CreatorTimeline />
       <TeamSection />
       <Timeline />
 
